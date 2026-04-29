@@ -177,8 +177,8 @@ html, body {
 
 .logo-img {
   display: block; width: auto; height: auto;
-  max-height: min(48vh, 380px);
-  max-width: min(40vw, 380px);
+  max-height: min(36vh, 280px);
+  max-width: min(38vw, 320px);
   filter:
     drop-shadow(0 0 28px rgba(0,238,255,0.52))
     drop-shadow(0 0 10px rgba(0,160,200,0.88));
@@ -241,10 +241,15 @@ html, body {
   font-weight: 700;
   line-height: 0.9;
   letter-spacing: -2px;
-  background: linear-gradient(135deg, var(--white) 0%, var(--teal-bright) 45%, #80d4e8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #ffffff;
+  text-shadow:
+    0 0 40px rgba(0,238,255,0.35),
+    0 0 80px rgba(0,238,255,0.12),
+    0 2px 4px rgba(0,0,0,0.5);
+  -webkit-text-fill-color: unset;
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
   animation: fadeUp 0.8s ease both 0.18s;
   margin-bottom: 8px;
   position: relative;
@@ -254,8 +259,8 @@ html, body {
 .tagline {
   font-family: 'Sora', sans-serif;
   font-size: 13px; font-weight: 300;
-  letter-spacing: 4px;
-  color: var(--silver); opacity: 0.62;
+  letter-spacing: 3px;
+  color: var(--silver); opacity: 0.6;
   animation: fadeUp 0.8s ease both 0.26s;
   margin-bottom: 22px;
 }
@@ -355,10 +360,10 @@ html, body {
   border: 1px solid rgba(0,238,255,0.22);
   color: var(--teal-bright);
   font-family: 'Sora', sans-serif;
-  font-size: 8px; font-weight: 700;
+  font-size: 10px; font-weight: 700;
   letter-spacing: 3.5px;
   text-transform: uppercase;
-  padding: 5px 12px; border-radius: 2px; margin-bottom: 14px;
+  padding: 7px 14px; border-radius: 2px; margin-bottom: 14px;
 }
 .badge-dot {
   width: 5px; height: 5px; border-radius: 50%;
@@ -520,8 +525,99 @@ html, body {
 .f-dot:nth-child(3) { background: rgba(0,238,255,0.15); }
 
 /* ═══════════════════════════════
-   ANIMATION
+   THUMBNAIL STRIP
 ═══════════════════════════════ */
+.thumb-strip {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+  animation: fadeUp 0.8s ease both 0.6s;
+}
+.thumb {
+  width: 58px; height: 58px;
+  border-radius: 4px;
+  background-size: cover;
+  background-position: center;
+  background-color: rgba(0,238,255,0.04);
+  border: 1px solid rgba(0,238,255,0.2);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.thumb::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(0,238,255,0.1) 0%, transparent 60%);
+  opacity: 0; transition: opacity 0.25s;
+}
+.thumb::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: var(--teal-bright);
+  transform: scaleX(0);
+  transition: transform 0.25s ease;
+}
+.thumb:hover {
+  border-color: rgba(0,238,255,0.7);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,238,255,0.22), 0 0 0 1px rgba(0,238,255,0.12);
+}
+.thumb:hover::before { opacity: 1; }
+.thumb:hover::after  { transform: scaleX(1); }
+
+/* ═══════════════════════════════
+   MODAL
+═══════════════════════════════ */
+#modal {
+  display: none;
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(3,6,14,0.94);
+  align-items: center; justify-content: center;
+  backdrop-filter: blur(8px);
+  cursor: zoom-out;
+}
+#modal.open { display: flex; animation: fadeIn 0.22s ease; }
+@keyframes fadeIn { from{opacity:0;transform:scale(0.97)} to{opacity:1;transform:scale(1)} }
+#modal-inner {
+  position: relative;
+  border: 1px solid rgba(0,238,255,0.22);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow:
+    0 0 80px rgba(0,238,255,0.12),
+    0 40px 100px rgba(0,0,0,0.85);
+}
+#modal-inner::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--teal-bright), transparent);
+}
+#modal-img {
+  display: block;
+  max-width: min(88vw, 960px);
+  max-height: 82vh;
+  pointer-events: none;
+}
+#modal-close {
+  position: fixed; top: 22px; right: 28px;
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(0,238,255,0.25);
+  border-radius: 50%;
+  font-size: 16px; color: rgba(0,238,255,0.7);
+  cursor: pointer;
+  transition: all 0.2s;
+  background: rgba(0,0,0,0.4);
+}
+#modal-close:hover {
+  color: var(--teal-bright);
+  border-color: var(--teal-bright);
+  box-shadow: 0 0 16px rgba(0,238,255,0.3);
+}
+
+
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -542,7 +638,9 @@ html, body {
     padding: 50px 0 24px;
   }
   .col-logo::after { display: none; }
-  .logo-img { max-height: 220px; max-width: 72vw; }
+  .logo-img { max-height: 200px; max-width: 68vw; }
+  .thumb-strip { gap: 6px; }
+  .thumb { width: 48px; height: 48px; }
   .col-content { padding: 28px 0 36px; }
   .studio-name { font-size: clamp(44px, 14vw, 72px); letter-spacing: -1px; }
   .contact-row { flex-direction: column; }
@@ -565,7 +663,16 @@ html, body {
       <img class="logo-img" src="logo.png" alt="Camelot Studio Logo">
     </div>
     <p class="logo-hint">Pasá el cursor para revelar</p>
-  </div>
+
+    <!-- THUMBNAIL STRIP -->
+    <div class="thumb-strip">
+      <div class="thumb" data-full="full1.jpg" style="background-image:url('mini1.jpg')" title="Ver imagen 1"></div>
+      <div class="thumb" data-full="full2.jpg" style="background-image:url('mini2.jpg')" title="Ver imagen 2"></div>
+      <div class="thumb" data-full="full3.jpg" style="background-image:url('mini3.jpg')" title="Ver imagen 3"></div>
+      <div class="thumb" data-full="full4.jpg" style="background-image:url('mini4.jpg')" title="Ver imagen 4"></div>
+      <div class="thumb" data-full="full5.jpg" style="background-image:url('mini5.jpg')" title="Ver imagen 5"></div>
+    </div>
+  </div><!-- /col-logo -->
 
   <!-- DERECHA: CONTENIDO -->
   <div class="col-content">
@@ -574,13 +681,17 @@ html, body {
 
     <h1 class="studio-name">CAMELOT</h1>
 
-    <p class="tagline">Forjando mundos. Construyendo leyendas.</p>
+    <p class="tagline">Hacemos los juegos que queremos jugar.</p>
 
     <div class="pills">
       <span class="pill">Indie</span>
       <span class="pill">Action RPG</span>
       <span class="pill">Historia</span>
       <span class="pill">PC &amp; Consola</span>
+      <span class="pill">Survival</span>
+      <span class="pill">Plataformas</span>
+      <span class="pill">Narrativa</span>
+      <span class="pill">Open World</span>
     </div>
 
     <div class="separator">
@@ -590,42 +701,36 @@ html, body {
 
     <div class="card">
       <div class="card-glow"></div>
-      <div class="badge"><span class="badge-dot"></span>En Construcción</div>
-      <h2 class="card-title">Nuestro sitio completo está en camino —<br>pero nuestro primer juego no espera.</h2>
+      <div class="badge"><span class="badge-dot"></span> Sitio en Construcción</div>
+      <h2 class="card-title">
+        Estamos armando el sitio —<br>
+        mientras tanto podés ver lo que estamos haciendo.
+      </h2>
       <p class="card-text">
-        Somos un estudio pequeño construyendo mundos grandes. Mientras terminamos
-        de darle forma a nuestra base, ya podés explorar nuestro debut.
+        Proyecto indie en desarrollo. Este espacio va a ir creciendo con el tiempo,
+        junto con nuestros juegos.
       </p>
       <a href="http://www.projectraccoon.com" target="_blank" rel="noopener" class="btn-project">
-        <span>Explorar nuestro primer juego</span>
+        <span>Ver proyecto actual</span>
         <span class="btn-arrow">→</span>
       </a>
     </div>
 
     <div class="contact-row">
 
-      <a href="http://www.javicv.ar" target="_blank" rel="noopener" class="contact-link">
-        <div class="c-icon c-icon-web">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#00eeff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-          </svg>
-        </div>
+      <a href="http://www.tuweb.com" target="_blank" rel="noopener" class="contact-link">
+        <div class="c-icon c-icon-web">🌐</div>
         <div class="c-text">
-          <div class="c-label">Portfolio</div>
-          <div class="c-name">javicv.ar</div>
+          <div class="c-label">Acerca de mí</div>
+          <div class="c-name">Web personal</div>
         </div>
       </a>
 
-      <a href="https://www.linkedin.com/in/javier-guanini-734363221/" target="_blank" rel="noopener" class="contact-link">
-        <div class="c-icon c-icon-li">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="#0a66c2">
-            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-          </svg>
-        </div>
+      <a href="https://linkedin.com" target="_blank" rel="noopener" class="contact-link">
+        <div class="c-icon c-icon-li">💼</div>
         <div class="c-text">
-          <div class="c-label">LinkedIn</div>
-          <div class="c-name">Javier Guanini</div>
+          <div class="c-label">Contacto</div>
+          <div class="c-name">LinkedIn</div>
         </div>
       </a>
 
@@ -634,7 +739,7 @@ html, body {
   </div>
 
   <div class="footer-bar">
-    <span class="f-copy">© 2025 Camelot Game Development Studio — Todos los derechos reservados</span>
+    <span class="f-copy">© 2025 Camelot — Todos los derechos reservados</span>
     <div class="f-dots">
       <div class="f-dot"></div>
       <div class="f-dot"></div>
@@ -643,6 +748,39 @@ html, body {
   </div>
 
 </div>
+<!-- MODAL -->
+<div id="modal">
+  <div id="modal-close">✕</div>
+  <div id="modal-inner">
+    <img id="modal-img" src="" alt="Imagen ampliada">
+  </div>
+</div>
+
+<script>
+(function(){
+  const modal    = document.getElementById('modal');
+  const modalImg = document.getElementById('modal-img');
+  const closeBtn = document.getElementById('modal-close');
+
+  document.querySelectorAll('.thumb').forEach(function(t) {
+    t.addEventListener('click', function(e) {
+      e.stopPropagation();
+      modalImg.src = t.dataset.full;
+      modal.classList.add('open');
+    });
+  });
+
+  function closeModal() { modal.classList.remove('open'); }
+  modal.addEventListener('click', closeModal);
+  closeBtn.addEventListener('click', closeModal);
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+  document.getElementById('modal-inner').addEventListener('click', function(e) {
+    e.stopPropagation();
+  });
+})();
+</script>
 
 </body>
 </html>
