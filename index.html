@@ -631,5 +631,114 @@ html, body {
 })();
 </script>
 
+<!-- ===== TRAILER POPUP MODAL ===== -->
+<div id="trailerModal" style="
+  display:flex;
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:rgba(0,0,0,0.88);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  animation: trailerFadeIn 0.5s ease;
+">
+  <style>
+    @keyframes trailerFadeIn {
+      from { opacity:0; }
+      to   { opacity:1; }
+    }
+    #trailerModal .trailer-box {
+      position:relative;
+      width:min(860px, 92vw);
+      background:#000;
+      border:1px solid rgba(255,255,255,0.12);
+      box-shadow:0 0 80px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.05);
+      border-radius:4px;
+      overflow:hidden;
+    }
+    #trailerModal .trailer-close {
+      position:absolute;
+      top:-44px;
+      right:0;
+      background:none;
+      border:1px solid rgba(255,255,255,0.25);
+      color:#fff;
+      font-size:18px;
+      width:36px;
+      height:36px;
+      border-radius:50%;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transition:background 0.2s, border-color 0.2s;
+      line-height:1;
+      padding:0;
+    }
+    #trailerModal .trailer-close:hover {
+      background:rgba(255,255,255,0.15);
+      border-color:rgba(255,255,255,0.6);
+    }
+    #trailerModal .trailer-ratio {
+      position:relative;
+      width:100%;
+      padding-top:56.25%;
+    }
+    #trailerModal .trailer-ratio iframe {
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      border:none;
+      display:block;
+    }
+    #trailerModal .trailer-footer {
+      width:min(860px, 92vw);
+      margin-top:14px;
+      text-align:center;
+      font-family:'Space Grotesk', sans-serif;
+      font-size:13px;
+      letter-spacing:0.3em;
+      color:#ffffff;
+      text-transform:uppercase;
+      user-select:none;
+    }
+  </style>
+
+  <div class="trailer-box">
+    <button class="trailer-close" onclick="closeTrailerModal()" title="Cerrar">✕</button>
+    <div class="trailer-ratio">
+      <iframe
+        id="trailerIframe"
+        src="https://www.youtube.com/embed/d_VBQgxHLhI?autoplay=1&rel=0&modestbranding=1"
+        allow="autoplay; fullscreen; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+
+  <div class="trailer-footer">Project Raccoon is coming</div>
+</div>
+
+<script>
+  function closeTrailerModal() {
+    var modal = document.getElementById('trailerModal');
+    var iframe = document.getElementById('trailerIframe');
+    iframe.src = '';
+    modal.style.opacity = '0';
+    modal.style.transition = 'opacity 0.3s ease';
+    setTimeout(function(){ modal.style.display = 'none'; }, 300);
+  }
+  document.getElementById('trailerModal').addEventListener('click', function(e){
+    if (e.target === this) closeTrailerModal();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') closeTrailerModal();
+  });
+</script>
+
 </body>
 </html>
